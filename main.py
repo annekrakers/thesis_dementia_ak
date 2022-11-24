@@ -6,6 +6,7 @@ from sklearn.pipeline import Pipeline
 
 from src.preprocessing import read_chat_file_pauses_to_dict, chat_count_dict_to_df
 from src.classifier import split_train_test, fit_classifier, predict, eval_clf
+from sklearn.preprocessing import MinMaxScaler
 
 
 def read_data() -> pd.DataFrame:
@@ -23,7 +24,15 @@ def read_data() -> pd.DataFrame:
     df_control = chat_count_dict_to_df(chat_file_pauses_dict)
 
     # Concat dataframes
-    return pd.concat([df_dementia, df_control]).sort_values("file_path").reset_index(drop=True)
+    df = pd.concat([df_dementia, df_control]).sort_values("file_path").reset_index(drop=True)
+
+
+    # apply normalization techniques
+    cols_to_norm = ['(.)', '(..)', '(...)', '&']
+    scaler = MinMaxScaler()
+    df[cols_to_norm] = scaler.fit_transform(df[cols_to_norm])
+
+    return df
 
 
 def evaluate_classifier(df: pd.DataFrame, clf: Pipeline, print_result: bool = True) -> dict:
@@ -32,7 +41,7 @@ def evaluate_classifier(df: pd.DataFrame, clf: Pipeline, print_result: bool = Tr
     """
     X = df[["(.)", "(..)", "(...)", "&"]]
     y = df["label"]
-    X_train, X_test, y_train, y_test = split_train_test(X=X, y=y, test_size=0.2, random_state=1)
+    X_train, X_test, y_train, y_test = split_train_test(X=X, y=y, test_size=0.2, random_state=42)
 
     trained_clf = fit_classifier(clf, X_train, y_train)
     y_pred = predict(trained_clf, X_test)
@@ -45,12 +54,12 @@ if __name__ == "__main__":
     df = read_data()
     print(df)
 
-    evaluate_classifier(df, SVC())
-    evaluate_classifier(df, GaussianNB())
-    evaluate_classifier(df, KNeighborsClassifier())
+    #evaluate_classifier(df, SVC())
+    #evaluate_classifier(df, GaussianNB())
+    #evaluate_classifier(df, KNeighborsClassifier())
 
     # grid search kunnen doen, bijv. n_neighbors (KNN), C (SVM), kernel (SVM), etc.
-    for kernel in ["rbf", "linear", "poly"]:
-        for c in range(1, 100):
-            scores = evaluate_classifier(df, SVC(kernel=kernel, C=(c / 1000)), print_result=False)
-            print(f"SVM (kernel={kernel}, C={(c/1000)}). Scores:", scores)
+    #for kernel in ["rbf", "linear", "poly"]:
+     #   for c in range(1, 100):
+      #      scores = evaluate_classifier(df, SVC(kernel=kernel, C=(c / 1000)), print_result=False)
+       #     print(f"SVM (kernel={kernel}, C={(c/1000)}). Scores:", scores)
