@@ -3,7 +3,7 @@ import os
 
 import pandas as pd
 
-PAUSES = ["(.)", "(..)", "(...)", "&-"]
+PAUSES = ["(.)", "(..)", "(...)", "&"]
 
 
 def read_chat_file_pauses_to_dict(directory_path: str, label: int, filter_by_participant: str = None) -> list[dict]:
@@ -37,7 +37,7 @@ def _read_file(file_path: str) -> list[str]:
     """
     Read a chat file to a list of strings.
     """
-    with open(file_path) as f:
+    with open(file_path, encoding="utf8") as f:
         return f.readlines()
 
 

@@ -30,7 +30,7 @@ def evaluate_classifier(df: pd.DataFrame, clf: Pipeline, print_result: bool = Tr
     """
     Evaluate a classifier.
     """
-    X = df[["(.)", "(..)", "(...)", "&-"]]
+    X = df[["(.)", "(..)", "(...)", "&"]]
     y = df["label"]
     X_train, X_test, y_train, y_test = split_train_test(X=X, y=y, test_size=0.2, random_state=1)
 
@@ -43,6 +43,7 @@ def evaluate_classifier(df: pd.DataFrame, clf: Pipeline, print_result: bool = Tr
 
 if __name__ == "__main__":
     df = read_data()
+    print(df)
 
     evaluate_classifier(df, SVC())
     evaluate_classifier(df, GaussianNB())
