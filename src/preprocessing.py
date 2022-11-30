@@ -101,4 +101,3 @@ if __name__ == "__main__":
 
     # Concat dataframes
     df = pd.concat([df_dementia, df_control]).sort_values("file_path").reset_index(drop=True)
-    print(df)

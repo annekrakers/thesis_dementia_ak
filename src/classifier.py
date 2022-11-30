@@ -9,7 +9,7 @@ METRICS = [f1_score, accuracy_score]
 
 
 def split_train_test(
-    X: pd.DataFrame, y: pd.DataFrame, test_size: int = 0.2, random_state: int = None
+        X: pd.DataFrame, y: pd.DataFrame, test_size: int = 0.2, random_state: int = None
 ) -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Split the dataset in a train and test dataset.
@@ -21,6 +21,7 @@ def fit_classifier(clf: Pipeline, X_train: pd.DataFrame, y_train: pd.DataFrame) 
     """
     Fit the classifier on the given input data.
     """
+
     clf.fit(X_train, y_train)
     return clf
 
@@ -40,6 +41,6 @@ def eval_clf(y_test: pd.DataFrame, y_pred: pd.DataFrame, print_results: bool = F
     for metric in METRICS:
         results[metric.__name__] = metric(y_test, y_pred)
 
-    if print_results:
-        print(results)
+
     return results
+
