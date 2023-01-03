@@ -28,7 +28,7 @@ def read_data() -> pd.DataFrame:
 
 
     # apply normalization techniques
-    cols_to_norm = ['(.)', '(..)', '(...)', '&']
+    cols_to_norm = ["(.)", "(..)", "(...)", "&"]
     scaler = MinMaxScaler()
     df[cols_to_norm] = scaler.fit_transform(df[cols_to_norm])
 
@@ -75,9 +75,9 @@ if __name__ == "__main__":
 
     print("Naive Bayes: ", evaluate_classifier(df, GaussianNB()), "\n")
 
-    print("KNN:", evaluate_classifier(df, KNeighborsClassifier()))
+    print("KNN:", evaluate_classifier(df, KNeighborsClassifier(n_neighbors=1, metric='minkowski', p=2)))
 
-    # grid search kunnen doen, bijv. n_neighbors (KNN), C (SVM), kernel (SVM), etc.
+    # grid search i.e. n_neighbors (KNN), C (SVM), kernel (SVM), etc.
     #for kernel in ["rbf", "linear", "poly"]:
      #   for c in range(1, 100):
       #      scores = evaluate_classifier(df, SVC(kernel=kernel, C=(c / 1000)))

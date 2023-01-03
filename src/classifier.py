@@ -2,10 +2,10 @@ from typing import Union
 
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import f1_score, accuracy_score
+from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
 import pandas as pd
 
-METRICS = [f1_score, accuracy_score]
+METRICS = [f1_score, accuracy_score, precision_score, recall_score]
 
 
 def split_train_test(
