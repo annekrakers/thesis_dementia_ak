@@ -3,7 +3,8 @@ import os
 
 import pandas as pd
 
-PAUSES = ["(.)", "(..)", "(...)", "&"]
+# change when using other feature combinations
+PAUSES = ["(.)","(..)", "(...)" ,"&"]
 
 
 def read_chat_file_pauses_to_dict(directory_path: str, label: int, filter_by_participant: str = None) -> list[dict]:
